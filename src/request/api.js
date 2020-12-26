@@ -7,3 +7,11 @@ export const getHomeData = () => {
         url:'/index/index'
     })
 }
+
+//封装搜索窗口数据
+export const getSearchData = () =>{
+    return request({
+        method:'get',
+        url:'/search/index'
+    })
+}

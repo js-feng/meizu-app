@@ -7,8 +7,19 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    redirect:'/home'
+  },
+  {
+    path: '/home',
     name: 'Home',
-    component: Home
+    component: Home,
+    children:[
+      {
+        path:'popup',
+        name:'MyPopup',
+        component: () => import('@/views/MyPopup.vue')
+      }
+    ]
   },
   {
     path: '/about',
