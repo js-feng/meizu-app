@@ -15,3 +15,6 @@ export const getSearchData = () =>{
         url:'/search/index'
     })
 }
+
+//封装搜索商品展示商品数据 
+export const getSearchShopData = (params) => request.get('/goods/list',{params})
