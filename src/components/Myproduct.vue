@@ -2,14 +2,20 @@
   <div class="product">
     <van-dropdown-menu>
       <van-dropdown-item disabled title="综合" />
-      <van-dropdown-item v-model="value1" :options="option1" title="价格" />
       <van-dropdown-item
-        v-model="value2"
+        v-model="priceVal"
+        :options="priceArr"
+        title="价格"
+        @change="priceChange"
+      />
+      <van-dropdown-item
+        v-model="categoryVal"
         :options="filterCategory"
         title="分类"
+        @change="categoryChange"
       />
     </van-dropdown-menu>
-    <van-empty v-if="isEmpty" description="没有找到相关产品" />
+    <van-empty v-if="goodsList.length == 0" description="没有找到相关产品" />
     <Product v-else :goodsList="goodsList" />
   </div>
 </template>
@@ -20,24 +26,39 @@ import Product from './product.vue'
 export default {
   data() {
     return {
-      value1: 0,
-      value2: 'a',
-      option1: [
-        { text: '全部商品', value: 0 },
-        { text: '新款商品', value: 1 },
-        { text: '活动商品', value: 2 },
+      priceVal: 0,
+      categoryVal: '',
+      //价格下拉的当前项
+      priceArr: [
+        { text: '价格由高到低', value: "desc" },
+        { text: '价格由低到高', value: "asc" },
+
       ],
-      option2: [
-        { text: '默认排序', value: 'a' },
-        { text: '好评排序', value: 'b' },
-        { text: '销量排序', value: 'c' },
-      ],
+
       isEmpty: false
     }
   },
   props: ['goodsList', 'filterCategory'],
   components: {
     Product
+  },
+  methods: {
+
+    categoryChange(value) {
+      //把value传到父组件mypopup里面
+      this.$emit('categoryChange', value)
+    },
+    priceChange(value) {
+      this.$emit('priceChange', value)
+    }
+  },
+  mounted() {
+    //遍历整个数组选中项，让其选中值等于跟后端数据一致，动态切换
+    this.filterCategory.map((val, index) => {
+      if (val.checked) {
+        this.categoryVal = val.value;
+      }
+    })
   }
 }
 </script>
