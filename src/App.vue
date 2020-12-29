@@ -1,29 +1,46 @@
 <template>
   <div id="app">
-    
-    <router-view/>
+    <router-view />
+    <Mytabbar />
   </div>
 </template>
+
+
+<script>
+//引入tabbar组件
+import Mytabbar from '@/components/Mytabbar.vue'
+export default {
+  data() {
+    return {
+
+    }
+  },
+  components: {
+    Mytabbar
+  }
+}
+</script>
+
 
 <style lang="less">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
+
   color: #2c3e50;
-  height:100%;
-  background:#efefef;
+  height: 100%;
+  background: #efefef;
 }
-html ,body{
-  height:100%;
-  
+html,
+body {
+  height: 100%;
 }
-html{
-  font-size:100px;
+html {
+  font-size: 100px;
 }
-body{
-  font-size:0.14rem;
+body {
+  font-size: 0.14rem;
 }
 #nav {
   padding: 30px;

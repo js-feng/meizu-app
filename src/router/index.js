@@ -21,6 +21,30 @@ const routes = [
       }
     ]
   },
+  //专题路由
+  {
+    path:'/topic',
+    name:'Topic',
+    component:() => import('@/views/Topic.vue')
+  },
+  //分类路由
+  {
+    path:'/category',
+    name:'Category',
+    component:() => import('@/views/Category.vue')
+  },
+  //购物车路由
+  {
+    path:'/cart',
+    name:'Cart',
+    component:() => import('@/views/Cart.vue')
+  },
+  //我的路由
+  {
+    path:'/user',
+    name:'User',
+    component:() => import('@/views/User.vue')
+  },
   {
     path: '/about',
     name: 'About',

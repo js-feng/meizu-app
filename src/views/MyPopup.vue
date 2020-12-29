@@ -6,6 +6,7 @@
       show-action
       :placeholder="iptPlaceholder"
       @search="onSearch"
+      @input="onInput"
       @cancel="onCancel"
     />
     <!--历史搜索和热门搜索单独抽离成立一个组件-->
@@ -13,9 +14,18 @@
       :historyKeywordList="historyKeywordList"
       :hotKeywordList="hotKeywordList"
       v-if="blockShow == 1"
+      @tagClick="tagClick"
     />
+    <!--推荐列表单独抽离成组件-->
+    <Mylist v-else-if="blockShow == 2" :arr="listArr" @cellClick="cellClick" />
     <!--产品区块也单独抽离成组件-->
-    <Myproduct v-else :goodsList="goodsList" :filterCategory="filterCategory" />
+    <Myproduct
+      v-else
+      :goodsList="goodsList"
+      :filterCategory="filterCategory"
+      @categoryChange="categoryChange"
+      @priceChange="priceChange"
+    />
   </div>
 </template>
 
@@ -24,8 +34,10 @@
 import History from '@/components/History.vue'
 //引入产品区块组件
 import Myproduct from '@/components/Myproduct.vue'
+//引入推荐列表数据
+import Mylist from '@/components/Mylist.vue'
 //按需导入搜索窗口数据
-import { getSearchData, getSearchShopData } from '@/request/api.js'
+import { getSearchData, getSearchShopData, getTimeData } from '@/request/api.js'
 
 export default {
   components: { History },
@@ -45,11 +57,16 @@ export default {
       //商品数据列表
       goodsList: [],
       //筛选分类数据
-      filterCategory: []
+      filterCategory: [],
+      order: 'desc',
+      categoryId: 0,
+      sort: "id",
+      listArr: []
+
     }
   },
   components: {
-    History, Myproduct
+    History, Myproduct, Mylist
   },
   created() {
     getSearchData().then(res => {
@@ -66,10 +83,29 @@ export default {
     })
   },
   methods: {
+    //根据分类检索结果
+    categoryChange(val) {
+      //先改id再触发搜索
+      this.categoryId = val;
+      this.onSearch()
+    },
+    //根据价格检索结果
+    priceChange(val) {
+      this.order = val;
+      this.sort = "price";
+      this.onSearch()
+    },
     //开始搜索
     onSearch() {
       getSearchShopData({
-        keyword: this.iptVal
+        keyword: this.iptVal,
+
+        //搜索条件参数，根据参数触发搜索，将显示不同结果
+        page: 1,
+        size: 20,
+        order: this.order,            //价格排序
+        categoryId: this.categoryId,        //分类排序
+        sort: this.sort
       }).then(res => {
         if (res.data.errno == 0) {
           //跳转到产品区块
@@ -84,8 +120,7 @@ export default {
 
 
           this.filterCategory = arr
-          console.log(this.goodsList)
-          console.log(this.filterCategory)
+
 
         }
 
@@ -96,6 +131,31 @@ export default {
     //取消搜索
     onCancel() {
       this.$router.go(-1)
+    },
+    //内容实施变化数据
+    onInput() {
+      //输入框内容发生改变时跳转到2
+      this.blockShow = 2
+      getTimeData({
+        keyword: this.iptVal
+      }).then(res => {
+        if (res.data.errno == 0) {
+          //保存实施热搜数据
+          this.listArr = res.data.data
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    //点击标签进行搜索逻辑
+    tagClick(val) {
+      //改变输入框的iptval的值 ，然后再进行一次调用搜索方法即可 
+      this.iptVal = val
+      this.onSearch()
+    },
+    cellClick(val) {
+      this.iptVal = val
+      this.onSearch()
     }
   }
 }
