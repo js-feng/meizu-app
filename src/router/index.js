@@ -3,6 +3,15 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
+//解决vue-router升级导致的Uncaught(in promise) navigator问题
+
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location,onResolve,onReject){
+  if(onResolve || onReject) return originalPush.call(this,location,onResolve,onReject)
+    return originalPush.call(this,location).catch(err => err)
+  
+}
+
 
 const routes = [
   {
@@ -55,8 +64,32 @@ const routes = [
   }
 ]
 
+
 const router = new VueRouter({
   routes
+})
+
+
+//to代表即将进入的路由
+//from代表即将离开的路由
+//next() ,每一个导航守卫至少搭配一个next()
+//导航守卫
+router.beforeEach((to,from,next) =>{
+   //想要进入购物车页面
+   let token = localStorage.getItem('token')
+   if(to.path == '/cart'){
+      if(token){
+        next()
+      }else{
+        //路由中无this => undefined
+        Vue.prototype.$toast('请先登录')
+        setTimeout(() => {
+          next('/user')
+        },1000)
+      }
+      return 
+   }
+   next()
 })
 
 export default router

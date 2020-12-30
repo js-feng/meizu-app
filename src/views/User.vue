@@ -1,16 +1,19 @@
 <template>
   <div class="user">
-    <van-row>
+    <van-row @click="openModal">
       <van-col span="6">
         <img :src="avatarSrc" alt="" />
       </van-col>
-      <van-col span="10" @click="onLogin">点击登录</van-col>
+      <van-col span="10" @click="onLogin">{{ nickName }}</van-col>
       <van-col span="8">
         <van-icon name="arrow" />
       </van-col>
     </van-row>
     <!--表单弹框区域-->
-    <van-dialog v-model="show" title="标题" show-cancel-button>
+
+    <!--弹出层-->
+    <div class="login" v-if="show">
+      <div class="opcity" @click="showLogin"></div>
       <van-form @submit="onSubmit">
         <van-field
           v-model="username"
@@ -33,11 +36,14 @@
           >
         </div>
       </van-form>
-    </van-dialog>
+    </div>
   </div>
 </template>
 
 <script>
+
+//导入登录接口获取token
+import { goLogin } from '@/request/api.js'
 export default {
   data() {
     return {
@@ -45,6 +51,18 @@ export default {
       show: false,
       username: '',
       password: '',
+      //用户民
+      nickName: "点击登录"
+
+    }
+  },
+  created() {
+    let token = localStorage.getItem('token')
+    if (token) {
+      let userInfo = localStorage.getItem('userInfo')
+      let newUserInfo = JSON.parse(userInfo);
+      this.avatarSrc = newUserInfo.avatar
+      this.nickName = newUserInfo.username
     }
   },
   methods: {
@@ -52,7 +70,42 @@ export default {
       this.show = true
     },
     onSubmit(values) {
-      console.log('submit', values);
+
+      //调用接口获取token ，然后将token存到localstorage中
+      goLogin({
+        username: values['用户名'],
+        pwd: values['密码']
+      }).then(res => {
+
+        //将token和userinfo存到localStorage中
+        if (res.data.errno == 0) {
+          let { token, userInfo } = res.data.data;
+          let newUserInfo = JSON.stringify(userInfo);
+          localStorage.setItem('token', token)
+          localStorage.setItem('userInfo', newUserInfo)
+          this.$toast.success('登录成功')
+          //修改用户头像和昵称
+          this.avatarSrc = userInfo.avatar
+          this.nickName = userInfo.username
+          setTimeout(() => {
+            this.show = false
+          }, 1000)
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    showLogin() {
+      this.show = false
+    },
+    //点击打开模态框
+    openModal() {
+      //获取token
+      let token = localStorage.getItem('token');
+      if (!token) {
+        this.show = true
+      }
+      return
     }
   }
 }
@@ -77,6 +130,31 @@ export default {
     &:last-child {
       text-align: right;
     }
+  }
+}
+.login {
+  width: 100%;
+  height: 100vh;
+  z-index: 99;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .opcity {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+  }
+  .van-form {
+    position: absolute;
+    top: 40vh;
+    background-color: #fff;
+    width: 90%;
+    border-radius: 0.16rem;
+    padding: 0.1rem;
   }
 }
 </style>

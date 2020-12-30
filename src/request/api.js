@@ -24,3 +24,6 @@ export const getTimeData = (params) => request.get('/search/helper',{params})
 
 //封装清除历史记录数据
 export const clearHistory = () => request.post('/search/clearhistory')
+
+//封装登录接口数据，获取token,gettoken
+export const goLogin = (params) => request.post('/auth/loginByWeb',params)
