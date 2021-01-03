@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <li v-for="item in goodsList" :key="item.id">
+    <li v-for="item in goodsList" :key="item.id" @click="goToDetail(item.id)">
       <img :src="item.list_pic_url" alt="" style="display: block" />
       <p class="van-ellipsis">{{ item.name }}</p>
       <span>{{ item.retail_price | filterMoney }}</span>
@@ -15,7 +15,16 @@ export default {
       imgSrc: require('@/assets/logo.png')
     }
   },
-  props: ['goodsList']
+  props: ['goodsList'],
+  created() {
+
+  },
+  methods: {
+    //跳转到产品详情页面
+    goToDetail(id) {
+      this.$router.push('/productdetail?id=' + id)
+    }
+  }
 
 }
 </script>
