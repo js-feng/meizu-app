@@ -1,7 +1,13 @@
 import Vue from 'vue'
 
 import 'vant/lib/index.css'
-import { Button,Search,Swipe, Field,SwipeItem, Form,Icon,Tag,DropdownMenu, DropdownItem,Empty,Col, Row,List,Cell,CellGroup,Toast,Tabbar, TabbarItem,Dialog} from 'vant'
+import { 
+    Button,Search,Swipe, Field,
+    SwipeItem, Form,Icon,Tag,
+    DropdownMenu,DropdownItem,Empty,Col, 
+    Row,List,Cell,CellGroup,Toast,Tabbar, 
+    TabbarItem,Dialog,Grid,GridItem,
+    Sku} from 'vant'
 
 Vue.use(Button);
 Vue.use(Search);
@@ -23,3 +29,9 @@ Vue.use(TabbarItem);
 Vue.use(Dialog)
 Vue.use(Form);
 Vue.use(Field)
+Vue.use(Grid)
+Vue.use(GridItem)
+Vue.use(Sku)
+
+
+

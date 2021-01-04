@@ -11,6 +11,25 @@
     </van-row>
     <!--表单弹框区域-->
 
+    <!--九宫格布局-->
+    <van-grid square :column-num="3">
+      <van-grid-item icon="orders-o" text="我的订单" @click="iconClick" />
+      <van-grid-item icon="gold-coin-o" text="优惠券" @click="iconClick" />
+      <van-grid-item icon="credit-pay" text="礼品卡" @click="iconClick" />
+      <van-grid-item icon="star-o" text="我的收藏" @click="iconClick" />
+      <van-grid-item icon="eye-o" text="我的足迹" @click="iconClick" />
+      <van-grid-item icon="medal-o" text="会员福利" @click="iconClick" />
+      <van-grid-item icon="location-o" text="地址管理" @click="iconClick" />
+      <van-grid-item
+        icon="browsing-history-o"
+        text="账号安全"
+        @click="iconClick"
+      />
+      <van-grid-item icon="service-o" text="联系客服" @click="iconClick" />
+      <van-grid-item icon="question-o" text="帮助中心" @click="iconClick" />
+      <van-grid-item icon="records" text="意见反馈" @click="iconClick" />
+    </van-grid>
+
     <!--弹出层-->
     <div class="login" v-if="show">
       <div class="opcity" @click="showLogin"></div>
@@ -104,8 +123,12 @@ export default {
       let token = localStorage.getItem('token');
       if (!token) {
         this.show = true
+      } else {
+        this.show = false
       }
-      return
+    },
+    iconClick() {
+      this.$toast.success('该功能开发中....')
     }
   }
 }

@@ -1,23 +1,25 @@
 <template>
   <div class="home">
-    <van-search
-      v-model="searchValue"
-      shape="round"
-      background="#fff"
-      placeholder="请输入搜索关键词"
-      @click="skip"
-    />
-    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="purple">
-      <van-swipe-item v-for="item in banners" :key="item.id">
-        <img
-          :src="item.image_url"
-          style="width: 100%; height: 100%; display: block"
-        />
-      </van-swipe-item>
-    </van-swipe>
+    <div v-if="$route.path == '/home'">
+      <van-search
+        v-model="searchValue"
+        shape="round"
+        background="#fff"
+        placeholder="请输入搜索关键词"
+        @click="skip"
+      />
+      <van-swipe class="my-swipe" :autoplay="3000" indicator-color="purple">
+        <van-swipe-item v-for="item in banners" :key="item.id">
+          <img
+            :src="item.image_url"
+            style="width: 100%; height: 100%; display: block"
+          />
+        </van-swipe-item>
+      </van-swipe>
+    </div>
     <!--popup动画过度页面-->
     <transition name="van-slide-right">
-      <router-view />
+      <router-view v-if="$route.path == '/home/popup'" />
     </transition>
   </div>
 </template>
@@ -58,3 +60,9 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.home {
+  background-color: #efefef;
+}
+</style>

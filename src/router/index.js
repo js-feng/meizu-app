@@ -21,6 +21,9 @@ const routes = [
   {
     path: '/home',
     name: 'Home',
+    meta:{
+      ifShowTabbar:true
+    },
     component: Home,
     children:[
       {
@@ -34,25 +37,43 @@ const routes = [
   {
     path:'/topic',
     name:'Topic',
+    meta:{
+      ifShowTabbar:true
+    },
     component:() => import('@/views/Topic.vue')
   },
   //分类路由
   {
     path:'/category',
     name:'Category',
+    meta:{
+      ifShowTabbar:true
+    },
     component:() => import('@/views/Category.vue')
   },
   //购物车路由
   {
     path:'/cart',
     name:'Cart',
+    meta:{
+      ifShowTabbar:true
+    },
     component:() => import('@/views/Cart.vue')
   },
   //我的路由
   {
     path:'/user',
     name:'User',
+    meta:{
+      ifShowTabbar:true
+    },
     component:() => import('@/views/User.vue')
+  },
+  //产品详情路由
+  {
+    path:'/productdetail',
+    name:'ProductDetail',
+    component:() => import('@/views/ProductDetail.vue')
   },
   {
     path: '/about',

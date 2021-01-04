@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <router-view />
-    <Mytabbar />
+    <Mytabbar v-if="$route.meta.ifShowTabbar == true" />
   </div>
 </template>
 
@@ -17,6 +17,9 @@ export default {
   },
   components: {
     Mytabbar
+  },
+  created() {
+
   }
 }
 </script>
