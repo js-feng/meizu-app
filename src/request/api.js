@@ -30,3 +30,6 @@ export const goLogin = (params) => request.post('/auth/loginByWeb',params)
 
 //封装产品明细接口数据
 export const GetGoodsDetail = (params) => request.get('/goods/detail',{params})
+
+//封装相关产品接口数据
+export const GetAboutProduct = (params) => request.get('/goods/related',{params})

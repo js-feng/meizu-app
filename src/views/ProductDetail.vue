@@ -15,7 +15,12 @@
       <span>{{ info.name }}</span>
     </div>
     <!--展示弹出层-->
-    <van-cell class="popup" title="展示弹出层" is-link></van-cell>
+    <van-cell
+      class="popup"
+      title="展示弹出层"
+      @click="showSku"
+      is-link
+    ></van-cell>
 
     <!--商品参数-->
     <div class="goods-info">
@@ -45,14 +50,32 @@
         <span>{{ item.answer }}</span>
       </li>
     </ul>
+
+    <div class="text">
+      <span>大家都在看</span>
+    </div>
+    <!--推荐产品列表-->
+    <Product :goodsList="goodsList" @goToDetail="goToDetail(id)" />
+    <!--商品sku信息-->
+    <van-sku
+      v-model="show"
+      :sku="sku"
+      :goods="goods"
+      :hide-stock="sku.hide_stock"
+    />
+
+    <!--底部购买导航链接-->
+    <MyGoodsActions />
   </div>
 </template>
 
 <script>
 //引入产品详情数据请求
-import { GetGoodsDetail } from '@/request/api.js'
+import { GetGoodsDetail, GetAboutProduct } from '@/request/api.js'
 //引入tips组件
 import MyTips from '@/components/tips.vue'
+import MyGoodsActions from '@/components/MyGoodsActions.vue'
+import Product from '../components/product.vue'
 export default {
   data() {
     return {
@@ -61,7 +84,16 @@ export default {
       //商品参数信息
       attribute: [],
       goods_desc: "",
-      issue: []
+      issue: [],
+      goodsList: [],
+      show: false,
+      sku: {
+        hide_stock: false,
+        tree: []
+      },
+      goods: {
+        picture: ""
+      }
     }
   },
   mounted() {
@@ -83,16 +115,35 @@ export default {
         this.goods_desc = res.data.data.info.goods_desc
         //保存常见问题数据
         this.issue = res.data.data.issue
-        console.log(this.issue);
 
 
       }
     }).catch(err => {
       console.log(err)
     })
+    //获取相关产品的接口请求 
+    GetAboutProduct({
+      id: this.$route.query.id
+    }).then(res => {
+      //把相关产品数据保存到data中
+      this.goodsList = res.data.data.goodsList
+
+    }).catch(err => {
+      console.log(err)
+    })
+  },
+  methods: {
+    goToDetail(id) {
+      this.$router.push('/productdetail?id=' + id)
+    },
+    showSku() {
+      this.show = true
+    }
   },
   components: {
-    MyTips
+    MyTips,
+    Product,
+    MyGoodsActions
   }
 }
 </script>

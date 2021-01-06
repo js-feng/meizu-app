@@ -7,7 +7,7 @@ import {
     DropdownMenu,DropdownItem,Empty,Col, 
     Row,List,Cell,CellGroup,Toast,Tabbar, 
     TabbarItem,Dialog,Grid,GridItem,
-    Sku} from 'vant'
+    Sku,GoodsAction, GoodsActionIcon, GoodsActionButton} from 'vant'
 
 Vue.use(Button);
 Vue.use(Search);
@@ -32,6 +32,9 @@ Vue.use(Field)
 Vue.use(Grid)
 Vue.use(GridItem)
 Vue.use(Sku)
+Vue.use(GoodsAction);
+Vue.use(GoodsActionButton);
+Vue.use(GoodsActionIcon);
 
 
 
