@@ -8,7 +8,11 @@
       />
       <van-goods-action-icon icon="cart-o" text="购物车" />
       <van-goods-action-button type="danger" @click="buyNow" text="立即购买" />
-      <van-goods-action-button type="warning" text="加入购物车" />
+      <van-goods-action-button
+        type="warning"
+        text="加入购物车"
+        @click="addToCart"
+      />
     </van-goods-action>
   </div>
 </template>
@@ -26,6 +30,10 @@ export default {
     },
     isCollection() {
       this.ifSave = !this.ifSave
+    },
+    addToCart() {
+      //通过$emit传给父级,让父级可以使用这个方法
+      this.$emit('addToCart')
     }
   }
 }

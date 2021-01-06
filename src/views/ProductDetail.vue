@@ -65,7 +65,7 @@
     />
 
     <!--底部购买导航链接-->
-    <MyGoodsActions />
+    <MyGoodsActions @addToCart="addToCart" />
   </div>
 </template>
 
@@ -89,7 +89,9 @@ export default {
       show: false,
       sku: {
         hide_stock: false,
-        tree: []
+        tree: [],
+        price: "",
+        stock_num: 0
       },
       goods: {
         picture: ""
@@ -104,7 +106,6 @@ export default {
       { id: this.$route.query.id }
     ).then(res => {
       if (res.data.errno == 0) {
-        console.log(res);
         //保存轮播图数据
         this.gallery = res.data.data.gallery
         //保存info里面的数据
@@ -115,8 +116,12 @@ export default {
         this.goods_desc = res.data.data.info.goods_desc
         //保存常见问题数据
         this.issue = res.data.data.issue
-
-
+        //保存sku展示图 
+        this.goods.picture = res.data.data.info.list_pic_url
+        //保存sku库存量
+        this.sku.stock_num = res.data.data.info.goods_number
+        //保存价格
+        this.sku.price = res.data.data.info.retail_price
       }
     }).catch(err => {
       console.log(err)
@@ -137,6 +142,15 @@ export default {
       this.$router.push('/productdetail?id=' + id)
     },
     showSku() {
+      this.show = true
+    },
+    //加入购物车
+    addToCart() {
+      if (this.show) {
+        this.$toast('可以加入购物车了')
+
+      }
+
       this.show = true
     }
   },
