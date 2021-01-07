@@ -33,3 +33,9 @@ export const GetGoodsDetail = (params) => request.get('/goods/detail',{params})
 
 //封装相关产品接口数据
 export const GetAboutProduct = (params) => request.get('/goods/related',{params})
+
+//获取购物车数量
+export const GetCartNum = () =>request.get('/cart/goodscount')
+
+//加入购物车
+export const AddToCart = (params) => request.get('/cart/add',params)

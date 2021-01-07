@@ -6,7 +6,11 @@
         :text="ifSave ? '已收藏' : '收藏'"
         @click="isCollection"
       />
-      <van-goods-action-icon icon="cart-o" text="购物车" />
+      <van-goods-action-icon
+        icon="cart-o"
+        text="购物车"
+        :badge="badge == 0 ? '' : 'badeg'"
+      />
       <van-goods-action-button type="danger" @click="buyNow" text="立即购买" />
       <van-goods-action-button
         type="warning"
@@ -18,10 +22,15 @@
 </template>
 
 <script>
+//获取购物车数量
+
+import { GetCartNum } from '@/request/api.js'
 export default {
   data() {
     return {
-      ifSave: false
+      ifSave: false,
+      //徽章数
+
     }
   },
   methods: {
@@ -35,7 +44,11 @@ export default {
       //通过$emit传给父级,让父级可以使用这个方法
       this.$emit('addToCart')
     }
-  }
+  },
+  created() {
+
+  },
+  props: ["badge"]
 }
 </script>
 

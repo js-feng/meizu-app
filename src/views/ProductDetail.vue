@@ -62,16 +62,17 @@
       :sku="sku"
       :goods="goods"
       :hide-stock="sku.hide_stock"
+      ref="sku"
     />
 
     <!--底部购买导航链接-->
-    <MyGoodsActions @addToCart="addToCart" />
+    <MyGoodsActions @addToCart="addToCart" :badge="badge" />
   </div>
 </template>
 
 <script>
 //引入产品详情数据请求
-import { GetGoodsDetail, GetAboutProduct } from '@/request/api.js'
+import { GetGoodsDetail, GetAboutProduct, AddToCart, GetCartNum } from '@/request/api.js'
 //引入tips组件
 import MyTips from '@/components/tips.vue'
 import MyGoodsActions from '@/components/MyGoodsActions.vue'
@@ -95,7 +96,9 @@ export default {
       },
       goods: {
         picture: ""
-      }
+      },
+      productList: [],
+      badge: 0
     }
   },
   mounted() {
@@ -106,6 +109,7 @@ export default {
       { id: this.$route.query.id }
     ).then(res => {
       if (res.data.errno == 0) {
+
         //保存轮播图数据
         this.gallery = res.data.data.gallery
         //保存info里面的数据
@@ -122,6 +126,9 @@ export default {
         this.sku.stock_num = res.data.data.info.goods_number
         //保存价格
         this.sku.price = res.data.data.info.retail_price
+        //保存productlist中的id
+        this.productList = res.data.data.productList
+
       }
     }).catch(err => {
       console.log(err)
@@ -136,6 +143,15 @@ export default {
     }).catch(err => {
       console.log(err)
     })
+    //获取badge徽章
+    GetCartNum().then(res => {
+      if (res.data.errno == 0) {
+        //保存徽章数据
+        this.badge = res.data.data.cartTotal.goodsCount
+      }
+    }).catch(err => {
+      console.log(err)
+    })
   },
   methods: {
     goToDetail(id) {
@@ -147,7 +163,18 @@ export default {
     //加入购物车
     addToCart() {
       if (this.show) {
-        this.$toast('可以加入购物车了')
+
+        let num = this.$refs.sku.getSkuData().selectedNum
+        AddToCart({
+          goodsId: this.$route.query.id,
+          productId: this.productList[0].id,
+          number: num
+        }).then(res => {
+          console.log(res)
+        }).catch(err => {
+          console.log(err)
+        })
+
 
       }
 
