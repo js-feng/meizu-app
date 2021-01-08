@@ -7,7 +7,7 @@ import {
     DropdownMenu,DropdownItem,Empty,Col, 
     Row,List,Cell,CellGroup,Toast,Tabbar, 
     TabbarItem,Dialog,Grid,GridItem,
-    Sku,GoodsAction, GoodsActionIcon, GoodsActionButton} from 'vant'
+    Sku,GoodsAction, GoodsActionIcon, GoodsActionButton,Checkbox, CheckboxGroup,Card,SubmitBar} from 'vant'
 
 Vue.use(Button);
 Vue.use(Search);
@@ -35,6 +35,10 @@ Vue.use(Sku)
 Vue.use(GoodsAction);
 Vue.use(GoodsActionButton);
 Vue.use(GoodsActionIcon);
+Vue.use(Checkbox);
+Vue.use(CheckboxGroup);
+Vue.use(Card);
+Vue.use(SubmitBar);
 
 
 

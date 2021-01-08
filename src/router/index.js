@@ -75,6 +75,12 @@ const routes = [
     name:'ProductDetail',
     component:() => import('@/views/ProductDetail.vue')
   },
+  //品牌详情路由
+  {
+    path:'/branddetail',
+    name:'BrandDetail',
+    component:() => import('@/views/brandDetail.vue')
+  },
   {
     path: '/about',
     name: 'About',

@@ -170,14 +170,19 @@ export default {
           productId: this.productList[0].id,
           number: num
         }).then(res => {
-          console.log(res)
+          if (res.data.errno == 0) {
+            this.badge = res.data.data.cartTotal.goodsCount
+            this.show = false
+            //先执行提示回调,再做购物车跳转
+            this.$toast('正在跳转购物车!')
+            setTimeout(() => {
+              this.$router.push('/cart')
+            }, 1000)
+          }
         }).catch(err => {
           console.log(err)
         })
-
-
       }
-
       this.show = true
     }
   },

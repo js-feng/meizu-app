@@ -9,7 +9,8 @@
       <van-goods-action-icon
         icon="cart-o"
         text="购物车"
-        :badge="badge == 0 ? '' : 'badeg'"
+        :badge="badge"
+        v-model="badge"
       />
       <van-goods-action-button type="danger" @click="buyNow" text="立即购买" />
       <van-goods-action-button

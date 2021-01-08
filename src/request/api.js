@@ -38,4 +38,7 @@ export const GetAboutProduct = (params) => request.get('/goods/related',{params}
 export const GetCartNum = () =>request.get('/cart/goodscount')
 
 //加入购物车
-export const AddToCart = (params) => request.get('/cart/add',params)
+export const AddToCart = (params) => request.post('/cart/add',params)
+
+//封装品牌详情页面
+export const brandDetail = (params) => request.get('/brand/detail',params)
