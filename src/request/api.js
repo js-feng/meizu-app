@@ -42,3 +42,9 @@ export const AddToCart = (params) => request.post('/cart/add',params)
 
 //封装品牌详情页面
 export const brandDetail = (params) => request.get('/brand/detail',params)
+
+//封装购物车列表数据 
+export const GetCartData = () => request.get('/cart/index')
+
+//商品的选中状态切换
+export const GoodChecked = (params) => request.post('/cart/checked',params)
