@@ -48,3 +48,9 @@ export const GetCartData = () => request.get('/cart/index')
 
 //商品的选中状态切换
 export const GoodChecked = (params) => request.post('/cart/checked',params)
+
+//商品步进器
+export const StepNum = (params) => request.post('/cart/update',params)
+
+//删除商品
+export const DelGood = (params) => request.post('/cart/delete',params)
